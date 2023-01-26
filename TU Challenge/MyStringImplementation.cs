@@ -8,6 +8,6 @@ namespace TU_Challenge
 {
     public class MyStringImplementation
     {
-        
+        public string Name { get; set; }
     }
 }

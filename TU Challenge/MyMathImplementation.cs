@@ -58,7 +58,7 @@ namespace TU_Challenge
             return result;
         }
 
-        public static int IsInOrder(int a, int b) => a <= b ? a < b ? 1 : 0 : -1;
+        public static int IsInOrder(int a, int b) => a <= b ? (a < b ? 1 : 0) : -1;
 
         public static bool IsListInOrder(List<int> List)
         {
@@ -72,18 +72,57 @@ namespace TU_Challenge
             return true;
         }
 
-        public static List<int> Sort(List<int> List)
+        public static List<int> Sort(List<int> list)
         {
+            int bubble;
 
-            List<int> ListOrdered = new List<int>();
-
-            for (int i = 0; i < ListOrdered.Count; i++)
+            // while not in order
+            while (!IsListInOrder(list))
             {
-
+                // get the first element not in order
+                for (int i = 1; i < list.Count; ++i)
+                {
+                    if (IsInOrder(list[i - 1], list[i]) < 0)
+                    { 
+                        // move it to the top
+                        bubble = list[i - 1];
+                        list[i - 1] = list[i];
+                        list[i] = bubble;
+                    }
+                }
             }
 
-            return List;
+            return list;
         }
 
+        public static List<int> GenericSort(List<int> list, Func<int, int, int> f)
+        {
+            int bubble;
+            bool sorted = false;
+
+            // while not in order
+            while (!sorted)
+            {
+                sorted = true;
+
+                // get the first element not in order
+                for (int i = 1; i < list.Count; ++i)
+                {
+                    if (f(list[i - 1], list[i]) < 0)
+                    {
+                        // move it to the top
+                        bubble = list[i - 1];
+                        list[i - 1] = list[i];
+                        list[i] = bubble;
+                        sorted = false; // still sorting ? do another iteration
+                    }
+                }
+            }
+
+            return list;
+        }
+
+
+        public static int IsInOrderDesc(int a, int b) => a >= b ? (a > b ? 1 : 0) : -1;
     }
 }
